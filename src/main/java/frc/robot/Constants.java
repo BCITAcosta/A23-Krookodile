@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import frc.robot.util.SwerveModuleConstants;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -14,6 +17,75 @@ package frc.robot;
  */
 public final class Constants {
   public static class OperatorConstants {
-    public static final int kDriverControllerPort = 0;
+    public static final int kOperatorJoyPort = 2;
+
+    public static final int kL1Button = 0;
+    public static final int kL2Button = 1;
+    public static final int kL3Button = 2;
+    public static final int kL4Button = 3;
+    public static final int kSourceButton = 4;
+    public static final int kProcessorButton = 5;
+  }
+
+  public static class DriverConstants{
+    public static final int kDriverDriveJoy = 1;
+    public static final int kDriverRotationJoy = 0;
+
+    public static class DriveJoystickButtons{
+      public static final int kIntakeButton = 1;
+      public static final int kSlowModeButton = 2;
+    }
+    
+    public static class RotationJoystickButtons{
+      public static final int kOutakeButton = 1;
+      public static final int kReturnTo0Degree = 2;
+      public static final int k180DegreeFlip = 3;
+      public static final int k60DegreeAutoLeft = 4;
+      public static final int k60DegreeAutoRight = 5;
+
+    }
+  }
+
+  public static class SwerveDriveConstants{
+    public static final double kWheelbase = 24.229226;
+  }
+  
+  public static class Swerve{
+    public static final class Mod0{
+        public static final int kTurnSparkMaxID = 11;
+        public static final int kDriveSparkMaxID = 12;
+        public static final Rotation2d angleOffset = new Rotation2d(0.00);
+        public static final boolean inverted = false;
+
+        public static final SwerveModuleConstants constants = new SwerveModuleConstants(kDriveSparkMaxID, kTurnSparkMaxID,
+         angleOffset, inverted);
+    }
+    public static final class Mod1{
+      public static final int kTurnSparkMaxID = 21;
+      public static final int kDriveSparkMaxID = 22;
+      public static final Rotation2d angleOffset = new Rotation2d(0.00);
+      public static final boolean inverted = false;
+
+      public static final SwerveModuleConstants constants = new SwerveModuleConstants(kDriveSparkMaxID, kTurnSparkMaxID,
+       angleOffset, inverted);
+    }
+    public static final class Mod2{
+      public static final int kTurnSparkMaxID = 31;
+      public static final int kDriveSparkMaxID = 32;
+      public static final Rotation2d angleOffset = new Rotation2d(0.00);
+      public static final boolean inverted = false;
+
+      public static final SwerveModuleConstants constants = new SwerveModuleConstants(kDriveSparkMaxID, kTurnSparkMaxID,
+       angleOffset, inverted);
+    }
+    public static final class Mod3{
+      public static final int kTurnSparkMaxID = 41;
+      public static final int kDriveSparkMaxID = 42;
+      public static final Rotation2d angleOffset = new Rotation2d(0.00);
+      public static final boolean inverted = false;
+
+      public static final SwerveModuleConstants constants = new SwerveModuleConstants(kDriveSparkMaxID, kTurnSparkMaxID,
+       angleOffset, inverted);
+    }
   }
 }
