@@ -81,12 +81,11 @@ public class Mk4TTBSwerve{
         SwerveModuleState correctedDesiredState = new SwerveModuleState();
         correctedDesiredState.speedMetersPerSecond = desiredState.speedMetersPerSecond;
         correctedDesiredState.angle = desiredState.angle.plus(new Rotation2d(m_angleOffset));
-
-        SwerveModuleState optimizedDesiredState = correctedDesiredState.optimize(Rotation2d(0.7));
+        correctedDesiredState.optimize(new Rotation2d(m_turningEncoder.getPosition()));
         // SwerveModuleState optimizedDesiredState = SwerveModuleState.optimize(correctedDesiredState, 
        // new Rotation2d(m_turningEncoder.getPosition()));
 
-        m_turningController.setReference(optimizedDesiredState.angle.getRadians(), SparkMax.ControlType.kPosition);
+        m_turningController.setReference(correctedDesiredState.angle.getRadians(), SparkMax.ControlType.kPosition);
         // m_drivePIDController.setReference(optimizedDesiredState.speedMetersPerSecond, CANSparkMax.ControlType.kVelocity);
         
         m_desiredState = desiredState;
@@ -98,13 +97,13 @@ public class Mk4TTBSwerve{
         return state;
     }
 
-    public SwerveModuleState getState(){
-        return new SwerveModuleState(m_driveEncoder.getVelocity(), new Rotation2d(m_turningEncoder.getPosition()-m_angleOffset));
-    }
+    // public SwerveModuleState getState(){
+    //     return new SwerveModuleState(m_driveEncoder.getVelocity(), new Rotation2d(m_turningEncoder.getPosition()-m_angleOffset));
+    // }
 
-    public SwerveModulePosition getPosition(){
-        return new SwerveModulePosition(m_driveEncoder.getPosition(), new Rotation2d(m_turningEncoder.getPosition()-m_angleOffset));
-    }
+    // public SwerveModulePosition getPosition(){
+    //     return new SwerveModulePosition(m_driveEncoder.getPosition(), new Rotation2d(m_turningEncoder.getPosition()-m_angleOffset));
+    // }
 
     public void stop(){
         m_turningSparkMax.set(0.0);
