@@ -90,7 +90,7 @@ public class DriverOI {
     }
 
     public double getRotation() {
-        double rotation = deadband(rightJoystick.getRawAxis(2),0.1);
+        double rotation = Math.pow(deadband(rightJoystick.getRawAxis(2),0.3),3);
 
         double combinedRotation;
         if (SwerveDriveConstants.kUseRateLimit) {
