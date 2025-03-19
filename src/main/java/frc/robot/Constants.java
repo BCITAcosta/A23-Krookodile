@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import frc.robot.util.SwerveModuleConstants;
 import edu.wpi.first.math.util.Units;
 
@@ -86,6 +87,22 @@ public final class Constants {
       new Translation2d(-kWheelBase / 2.0, kTrackWidth / 2.0), // BL
       new Translation2d(-kWheelBase / 2.0, -kTrackWidth / 2.0) // BR
   };
+
+      public static final SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
+      swerveModuleLocations[0],
+      swerveModuleLocations[1],
+      swerveModuleLocations[2],
+      swerveModuleLocations[3]);
+
+
+      public static final boolean kUseRateLimit = true;
+      public static final double kDirectionSlewRate = 4.5;
+      public static final double kMagnitudeSlewRate = 4.5;
+      public static final double kRotationalSlewRate = 2.0;
+
+
+      public static final double kHeadingCorrectionP = 0.04;
+      public static final double kHeadingCorrectionTolerance = 2.0;
 }
   
   public static class Swerve{
