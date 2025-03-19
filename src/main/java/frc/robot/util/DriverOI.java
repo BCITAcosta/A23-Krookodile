@@ -90,7 +90,7 @@ public class DriverOI {
     }
 
     public double getRotation() {
-        double rotation = rightJoystick.getRawAxis(2);
+        double rotation = deadband(rightJoystick.getRawAxis(2),0.1);
 
         double combinedRotation;
         if (SwerveDriveConstants.kUseRateLimit) {
@@ -304,6 +304,13 @@ public class DriverOI {
         } else {
             return SwerveDriveConstants.kNormalModeRotationSpeedScale;
         }
+    }
+
+    public double deadband(double joystickValue, double DeadbandCutoff){
+        if(joystickValue<DeadbandCutoff && joystickValue>(DeadbandCutoff*(-1))){
+            return 0.0;
+        } 
+        return (joystickValue-(Math.abs(joystickValue)/joystickValue*DeadbandCutoff))/(1-DeadbandCutoff);
     }
     
 }
