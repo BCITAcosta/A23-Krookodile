@@ -19,6 +19,8 @@ import frc.robot.util.SwerveModuleConstants;
 
 import frc.robot.Constants.SwerveDriveConstants;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class Mk4TTBSwerve{
     // Turning Spark Information and Calls
     private final SparkMax m_turningSparkMax;
@@ -127,11 +129,11 @@ public class Mk4TTBSwerve{
     }
 
     public void putSmartDashboard(){
-        // SmartDashboard.putNumber(this.moduleNum + " Actual Angle", m_turningEncoder.getPosition());
-        // SmartDashboard.putNumber(this.moduleNum + " Mod. Offset", m_angleOffset);
-        // SmartDashboard.putNumber(this.moduleNum + " M Angle", m_turningEncoder.getPosition()-m_angleOffset);
-        // SmartDashboard.putNumber(this.moduleNum + " Set Point", m_desiredState.angle.getDegrees());
-        // SmartDashboard.putNumber(this.moduleNum + " Speed Setpoint", m_desiredState.speedMetersPerSecond);
-        // SmartDashboard.putNumber(this.moduleNum + "Drive Encoder", m_driveEncoder.getPosition());
+        SmartDashboard.putNumber(this.moduleNum + " Actual Angle", m_turningEncoder.getPosition());
+        SmartDashboard.putNumber(this.moduleNum + " Mod. Offset", m_angleOffset);
+        SmartDashboard.putNumber(this.moduleNum + " M Angle", m_turningEncoder.getPosition()-m_angleOffset);
+        SmartDashboard.putNumber(this.moduleNum + " Set Point", m_desiredState.angle.getDegrees());
+        SmartDashboard.putNumber(this.moduleNum + " Speed Setpoint", m_desiredState.speedMetersPerSecond);
+        SmartDashboard.putNumber(this.moduleNum + "Drive Encoder", m_driveEncoder.getPosition());
     }
 }
