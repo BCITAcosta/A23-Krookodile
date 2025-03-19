@@ -5,7 +5,9 @@
 package frc.robot;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import frc.robot.util.SwerveModuleConstants;
+import edu.wpi.first.math.util.Units;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -16,6 +18,10 @@ import frc.robot.util.SwerveModuleConstants;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+  public static class NeoMotorConstants{
+    public static final double kFreeSpeedRpm = 5676;
+  }
+
   public static class OperatorConstants {
     public static final int kOperatorJoyPort = 2;
 
@@ -47,8 +53,40 @@ public final class Constants {
   }
 
   public static class SwerveDriveConstants{
-    public static final double kWheelbase = 24.229226;
-  }
+    public static final double kWheelBase = 24.229226;
+    public static final double kTrackWidth = 24.229226;
+
+    public static final double kBaseRadius = Math.sqrt(Math.pow(kTrackWidth, 2) + Math.pow(kWheelBase, 2))/2;
+
+    public static final double kRealMaxSpeedMPS = 5.24256;
+    public static final double kMaxAngularSpeed = 4 * Math.PI /3;
+    public static final double kNormalModeTranslationSpeedScale = 1.0;
+    public static final double kNormalModeRotationSpeedScale = 1.0;
+    public static final double kSlowModeTranslationSpeedScale = 0.2;
+    public static final double kSlowModeRotationSpeedScale = 0.2;
+
+    public static final int kDrivingMotorPinionTeeth = 16;
+    public static final double kDrivingMotorFreeSpeedRps = NeoMotorConstants.kFreeSpeedRpm / 60;
+    public static final double kWheelDiameterMeters = Units.inchesToMeters(4); // correction
+    public static final double kWheelCircumferenceMeters = kWheelDiameterMeters * Math.PI;
+    // 45 Tooth Bevel Gear, 17 Tooth Bevel Gear Driving, 19 Tooth Second Stage Out, 
+    // 27 Tooth Second Stage In, 16 Tooth Pinion, 50 Tooth First Stage
+    public static final double kDrivingMotorReduction = (45.0 * 17 * 50) / (kDrivingMotorPinionTeeth * 15 * 27);
+    public static final double kDriveWheelFreeSpeedRps = (kDrivingMotorFreeSpeedRps
+                    * kWheelCircumferenceMeters) / kDrivingMotorReduction;
+
+    public static final double kDrivingEncoderPositionFactor = kWheelCircumferenceMeters
+                    / kDrivingMotorReduction; // meters
+    public static final double kDrivingEncoderVelocityFactor = (kWheelCircumferenceMeters
+                    / kDrivingMotorReduction) / 60.0; // meters per second
+
+    public static final Translation2d[] swerveModuleLocations = {
+      new Translation2d(kWheelBase / 2.0, kTrackWidth / 2.0), // FL
+      new Translation2d(kWheelBase / 2.0, -kTrackWidth/2.0), // FR
+      new Translation2d(-kWheelBase / 2.0, kTrackWidth / 2.0), // BL
+      new Translation2d(-kWheelBase / 2.0, -kTrackWidth / 2.0) // BR
+  };
+}
   
   public static class Swerve{
     public static final class Mod0{

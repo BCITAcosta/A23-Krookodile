@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 
 
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.spark.SparkAbsoluteEncoder;
 import com.revrobotics.spark.SparkAnalogSensor;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
@@ -11,12 +10,10 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
-import com.revrobotics.spark.config.SparkBaseConfig;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import frc.robot.util.SwerveModuleConstants;
 
@@ -30,13 +27,14 @@ public class Mk4TTBSwerve{
     private final SparkClosedLoopController m_turningController;
 
     // Driving Spark Information and Calls
-    // private final SparkMax m_driveSparkMax;
-    // private final SparkMaxConfig m_driveSparkMaxConfig;
-    // private final RelativeEncoder m_driveEncoder;
-    // private final SparkClosedLoopController m_drivePIDController;
+    private final SparkMax m_driveSparkMax;
+    private final SparkMaxConfig m_driveSparkMaxConfig;
+    private final RelativeEncoder m_driveEncoder;
+    private final SparkClosedLoopController m_driveController;
 
     // Module Information and Calls
     private int moduleNum;
+    private SwerveModuleConstants m_constants;
 
     private SwerveModuleState state;
     private SwerveModuleState m_desiredState = new SwerveModuleState(0.0, new Rotation2d());
@@ -45,8 +43,10 @@ public class Mk4TTBSwerve{
     public Mk4TTBSwerve(int moduleNum, SwerveModuleConstants constants){
         this.moduleNum = moduleNum;
 
+        m_constants = constants;
+
         m_turningSparkMaxConfig = new SparkMaxConfig();
-        // m_driveSparkMaxConfig = new SparkMaxConfig();
+        m_driveSparkMaxConfig = new SparkMaxConfig();
 
         m_turningSparkMax = new SparkMax(constants.turnMotorID, MotorType.kBrushless);
         m_angleOffset = constants.angleOffset.getRadians();
@@ -54,27 +54,13 @@ public class Mk4TTBSwerve{
         m_turningController = m_turningSparkMax.getClosedLoopController();
         configTurningSpark();
 
-        // m_driveSparkMax = new CANSparkMax(constants.driveMotorID, MotorType.kBrushless);
-        // m_driveSparkMax.restoreFactoryDefaults();
-        // m_driveSparkMax.setInverted(constants.inverted);
-        // m_driveEncoder = m_driveSparkMax.getEncoder();
-        // m_drivePIDController = m_driveSparkMax.getPIDController();
-        // m_drivePIDController.setFeedbackDevice(m_driveEncoder);
-        // m_driveEncoder.setPositionConversionFactor(DriveConstants.kDrivingEncoderPositionFactor);
-        // m_driveEncoder.setVelocityConversionFactor(DriveConstants.kDrivingEncoderVelocityFactor);
-        // m_drivePIDController.setP(0.04,0);
-        // m_drivePIDController.setI(0,0);
-        // m_drivePIDController.setD(0,0);
-        // m_drivePIDController.setFF(1, 0);
-        // m_drivePIDController.setOutputRange(-1, 1, 0);
-        // m_driveSparkMax.setIdleMode(IdleMode.kBrake);
-        // m_driveSparkMax.setSmartCurrentLimit(50);
-        // m_driveSparkMax.setClosedLoopRampRate(0.05);
-        // m_driveSparkMax.burnFlash();
-
+        m_driveSparkMax = new SparkMax(constants.driveMotorID, MotorType.kBrushless);
+        m_driveEncoder = m_driveSparkMax.getEncoder();
+        m_driveController = m_driveSparkMax.getClosedLoopController();
+        configDriveSpark();
         
         m_desiredState.angle = new Rotation2d(m_turningEncoder.getPosition());
-        // m_driveEncoder.setPosition(0);
+        m_driveEncoder.setPosition(0);
     }
 
     public void setDesiredState(SwerveModuleState desiredState){
@@ -82,11 +68,9 @@ public class Mk4TTBSwerve{
         correctedDesiredState.speedMetersPerSecond = desiredState.speedMetersPerSecond;
         correctedDesiredState.angle = desiredState.angle.plus(new Rotation2d(m_angleOffset));
         correctedDesiredState.optimize(new Rotation2d(m_turningEncoder.getPosition()));
-        // SwerveModuleState optimizedDesiredState = SwerveModuleState.optimize(correctedDesiredState, 
-       // new Rotation2d(m_turningEncoder.getPosition()));
 
         m_turningController.setReference(correctedDesiredState.angle.getRadians(), SparkMax.ControlType.kPosition);
-        // m_drivePIDController.setReference(optimizedDesiredState.speedMetersPerSecond, CANSparkMax.ControlType.kVelocity);
+        m_driveController.setReference(correctedDesiredState.speedMetersPerSecond, SparkMax.ControlType.kVelocity);
         
         m_desiredState = desiredState;
     }
@@ -97,13 +81,13 @@ public class Mk4TTBSwerve{
         return state;
     }
 
-    // public SwerveModuleState getState(){
-    //     return new SwerveModuleState(m_driveEncoder.getVelocity(), new Rotation2d(m_turningEncoder.getPosition()-m_angleOffset));
-    // }
+    public SwerveModuleState getState(){
+        return new SwerveModuleState(m_driveEncoder.getVelocity(), new Rotation2d(m_turningEncoder.getPosition()-m_angleOffset));
+    }
 
-    // public SwerveModulePosition getPosition(){
-    //     return new SwerveModulePosition(m_driveEncoder.getPosition(), new Rotation2d(m_turningEncoder.getPosition()-m_angleOffset));
-    // }
+    public SwerveModulePosition getPosition(){
+        return new SwerveModulePosition(m_driveEncoder.getPosition(), new Rotation2d(m_turningEncoder.getPosition()-m_angleOffset));
+    }
 
     public void stop(){
         m_turningSparkMax.set(0.0);
@@ -125,6 +109,21 @@ public class Mk4TTBSwerve{
         .positionWrappingInputRange(0, 2*Math.PI);
         m_turningSparkMaxConfig.closedLoopRampRate(0.05);
         m_turningSparkMax.configure(m_turningSparkMaxConfig, null, null);
+    }
+
+    public void configDriveSpark(){
+        m_driveSparkMaxConfig.idleMode(IdleMode.kBrake);
+        m_driveSparkMaxConfig.inverted(m_constants.inverted);
+        m_driveSparkMaxConfig.smartCurrentLimit(50);
+        m_driveSparkMaxConfig.encoder.positionConversionFactor(SwerveDriveConstants.kDrivingEncoderPositionFactor);
+        m_driveSparkMaxConfig.encoder.velocityConversionFactor(SwerveDriveConstants.kDrivingEncoderVelocityFactor);
+        m_driveSparkMaxConfig.closedLoop
+        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+        .pidf(0.04,0.0,0.0,1.0)
+        .outputRange(-1.0, 1.0);
+        m_driveSparkMaxConfig.closedLoopRampRate(0.05);
+        m_driveSparkMax.configure(m_driveSparkMaxConfig,null,null);
+
     }
 
     public void putSmartDashboard(){
