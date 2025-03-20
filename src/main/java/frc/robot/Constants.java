@@ -54,8 +54,8 @@ public final class Constants {
   }
 
   public static class SwerveDriveConstants{
-    public static final double kWheelBase = 24.229226;
-    public static final double kTrackWidth = 24.229226;
+    public static final double kWheelBase = Units.inchesToMeters(24.229226);
+    public static final double kTrackWidth = Units.inchesToMeters(24.229226);
 
     public static final double kBaseRadius = Math.sqrt(Math.pow(kTrackWidth, 2) + Math.pow(kWheelBase, 2))/2;
 
