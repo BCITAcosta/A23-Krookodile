@@ -51,13 +51,6 @@ public class DriverOI {
         //Slow mode for driving 
         Trigger slowMode = new JoystickButton(leftJoystick, 1);
         slowMode.toggleOnTrue(new InstantCommand(()-> toggleDriveSpeedMode()));
-        //.toggleOnFalse(new InstantCommand(()-> setDriveSpeedMode(DriveSpeedMode.NORMAL)));
-
-        //Straighten
-
-        JoystickButton straightenButton = new JoystickButton(leftJoystick, 2);
-        straightenButton.onTrue(new InstantCommand(()-> drivetrain.straighten()));
-
         
     }
 
