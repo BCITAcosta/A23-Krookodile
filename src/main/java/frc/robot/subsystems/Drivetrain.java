@@ -61,10 +61,10 @@ public class Drivetrain extends SubsystemBase{
 
         // CameraServer.startAutomaticCapture();
 
-        frontLeftSwerveModule = new Mk4TTBSwerve(0, Swerve.Mod0.constants);
-        frontRightSwerveModule = new Mk4TTBSwerve(1, Swerve.Mod1.constants);
-        backLeftSwerveModule = new Mk4TTBSwerve(2, Swerve.Mod2.constants);
-        backRightSwerveModule = new Mk4TTBSwerve(3 , Swerve.Mod3.constants);
+        frontLeftSwerveModule = new Mk4TTBSwerve(2, Swerve.Mod2.constants);
+        frontRightSwerveModule = new Mk4TTBSwerve(0, Swerve.Mod0.constants);
+        backLeftSwerveModule = new Mk4TTBSwerve(3, Swerve.Mod3.constants);
+        backRightSwerveModule = new Mk4TTBSwerve(1 , Swerve.Mod1.constants);
 
         swerveModules = new Mk4TTBSwerve[] {
             frontLeftSwerveModule,
