@@ -1,7 +1,5 @@
 package frc.robot.subsystems;
 
-
-
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkAnalogSensor;
 import com.revrobotics.spark.SparkClosedLoopController;
@@ -100,9 +98,12 @@ public class Mk4TTBSwerve{
     }
 
     public void configTurningSpark(){
-        m_turningSparkMaxConfig.idleMode(IdleMode.kBrake);
-        m_turningSparkMaxConfig.inverted(true);
+        m_turningSparkMaxConfig.idleMode(IdleMode.kCoast);
+        m_turningSparkMaxConfig.inverted(false);
         m_turningSparkMaxConfig.smartCurrentLimit(40);
+        m_turningSparkMaxConfig.analogSensor.inverted(true);
+        m_turningSparkMaxConfig.analogSensor.positionConversionFactor((2*Math.PI)/3.3);
+        m_turningSparkMaxConfig.analogSensor.velocityConversionFactor(((2*Math.PI)/3.3)/60);
         m_turningSparkMaxConfig.closedLoop
         .feedbackSensor(FeedbackSensor.kAnalogSensor)
         .pidf(0.45,0.0,0.0,0.0)
