@@ -62,22 +62,22 @@ public class Drivetrain extends SubsystemBase{
         CameraServer.startAutomaticCapture();
 
         frontLeftSwerveModule = new Mk4TTBSwerve(0, Swerve.Mod0.constants);
-        frontRightSwerveModule = new Mk4TTBSwerve(3, Swerve.Mod3.constants);
-        backLeftSwerveModule = new Mk4TTBSwerve(1, Swerve.Mod1.constants);
-        backRightSwerveModule = new Mk4TTBSwerve(2 , Swerve.Mod2.constants);
+        frontRightSwerveModule = new Mk4TTBSwerve(1, Swerve.Mod1.constants);
+        backLeftSwerveModule = new Mk4TTBSwerve(2, Swerve.Mod2.constants);
+        backRightSwerveModule = new Mk4TTBSwerve(3 , Swerve.Mod3.constants);
 
         swerveModules = new Mk4TTBSwerve[] {
-            backLeftSwerveModule,
-            backRightSwerveModule,
             frontLeftSwerveModule,
-            frontRightSwerveModule
+            frontRightSwerveModule,
+            backLeftSwerveModule,
+            backRightSwerveModule
             };
 
         swerveModulePositions = new SwerveModulePosition[] {
-            backLeftSwerveModule.getPosition(),
-            backRightSwerveModule.getPosition(),
             frontLeftSwerveModule.getPosition(),
             frontRightSwerveModule.getPosition(),
+            backLeftSwerveModule.getPosition(),
+            backRightSwerveModule.getPosition()
             };
 
         gyro = new ADIS16470_IMU();
@@ -90,10 +90,10 @@ public class Drivetrain extends SubsystemBase{
         getHeadingAsRotation2d(), 
             new SwerveModulePosition[]
             {
-                backLeftSwerveModule.getPosition(),
-                backRightSwerveModule.getPosition(),
                 frontLeftSwerveModule.getPosition(),
                 frontRightSwerveModule.getPosition(),
+                backLeftSwerveModule.getPosition(),
+                backRightSwerveModule.getPosition()
                 }, 
                 new Pose2d(), 
                 VecBuilder.fill(0.1, 0.1, 0.1), 
@@ -169,10 +169,10 @@ public class Drivetrain extends SubsystemBase{
 
     public ChassisSpeeds getRobotChassisSpeeds(){
         return SwerveDriveConstants.kinematics.toChassisSpeeds(
-            backLeftSwerveModule.getState(),
-            backRightSwerveModule.getState(),    
             frontLeftSwerveModule.getState(),
-            frontRightSwerveModule.getState()
+            frontRightSwerveModule.getState(),    
+            backLeftSwerveModule.getState(),
+            backRightSwerveModule.getState()
             );
     }
 
