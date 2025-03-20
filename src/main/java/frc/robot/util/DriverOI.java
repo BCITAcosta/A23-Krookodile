@@ -8,10 +8,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.SwerveDriveConstants;
-//import frc.robot.commands.StopTest;
-//import frc.robot.commands.StraightenDrivetrain;
 import frc.robot.subsystems.Drivetrain;
-//import frc.robot.subsystems.SmolArm;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class DriverOI {
