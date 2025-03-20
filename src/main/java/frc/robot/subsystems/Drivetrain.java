@@ -69,15 +69,15 @@ public class Drivetrain extends SubsystemBase{
         swerveModules = new Mk4TTBSwerve[] {
             frontLeftSwerveModule,
             frontRightSwerveModule,
-            backLeftSwerveModule,
-            backRightSwerveModule
+            backRightSwerveModule,
+            backLeftSwerveModule
             };
 
         swerveModulePositions = new SwerveModulePosition[] {
             frontLeftSwerveModule.getPosition(),
             frontRightSwerveModule.getPosition(),
+            backRightSwerveModule.getPosition(),
             backLeftSwerveModule.getPosition(),
-            backRightSwerveModule.getPosition()
             };
 
         gyro = new ADIS16470_IMU();
@@ -92,8 +92,8 @@ public class Drivetrain extends SubsystemBase{
             {
                 frontLeftSwerveModule.getPosition(),
                 frontRightSwerveModule.getPosition(),
-                backLeftSwerveModule.getPosition(),
-                backRightSwerveModule.getPosition()
+                backRightSwerveModule.getPosition(),
+                backLeftSwerveModule.getPosition()
                 }, 
                 new Pose2d(), 
                 VecBuilder.fill(0.1, 0.1, 0.1), 
@@ -171,8 +171,8 @@ public class Drivetrain extends SubsystemBase{
         return SwerveDriveConstants.kinematics.toChassisSpeeds(
             frontLeftSwerveModule.getState(),
             frontRightSwerveModule.getState(),
-            backLeftSwerveModule.getState(),
-            backRightSwerveModule.getState() 
+            backRightSwerveModule.getState(), 
+            backLeftSwerveModule.getState()
             );
     }
 
