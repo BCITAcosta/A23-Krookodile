@@ -63,7 +63,7 @@ public class DriverOI {
     }
 
     public double getForward(){
-        double input = -leftJoystick.getRawAxis(1);
+        double input = leftJoystick.getRawAxis(1);
 
         if(Math.abs(input) < 0.9){
             return input *= 0.7777; // Why 0.7777?
@@ -73,7 +73,7 @@ public class DriverOI {
     }
 
         public double getStrafe(){
-        double input = leftJoystick.getRawAxis(0);
+        double input = -leftJoystick.getRawAxis(0);
 
         if(Math.abs(input) < 0.9){
             return input *=0.7777; // Why 0.7777?
@@ -83,7 +83,7 @@ public class DriverOI {
     }
 
     public double getRotation() {
-        double rotation = Math.pow(deadband(rightJoystick.getRawAxis(2),0.3),3);
+        double rotation = -Math.pow(deadband(rightJoystick.getRawAxis(2),0.3),3);
 
         double combinedRotation;
         if (SwerveDriveConstants.kUseRateLimit) {

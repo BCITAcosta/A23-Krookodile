@@ -257,7 +257,7 @@ public class Drivetrain extends SubsystemBase{
     }
 
     public double getHeading(){
-        heading = -gyro.getAngle(gyro.getYawAxis());
+        heading = gyro.getAngle(gyro.getYawAxis());
         return Math.IEEEremainder(heading, 360);
     }
 
