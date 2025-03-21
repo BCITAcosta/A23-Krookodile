@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -53,6 +54,7 @@ public class Drivetrain extends SubsystemBase{
     private double correctHeadingPreviousTime;
     private double correctHeadingOffTime;
 
+    private Field2d m_field = new Field2d();
     private final SwerveDrivePoseEstimator odometry;
 
     // Mutable holder for unit-safe voltage values, persisted to avoid reallocation.
@@ -60,6 +62,8 @@ public class Drivetrain extends SubsystemBase{
     public Drivetrain(){
 
         // CameraServer.startAutomaticCapture();
+
+        SmartDashboard.putData("Field",m_field);
 
         frontLeftSwerveModule = new Mk4TTBSwerve(1, Swerve.Mod1.constants);
         frontRightSwerveModule = new Mk4TTBSwerve(0, Swerve.Mod0.constants);
