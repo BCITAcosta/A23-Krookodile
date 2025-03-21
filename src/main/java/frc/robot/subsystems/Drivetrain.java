@@ -81,7 +81,7 @@ public class Drivetrain extends SubsystemBase{
             };
 
         gyro = new ADIS16470_IMU();
-        isFlipped = true;
+        isFlipped = false;
 
         lastestChassisSpeed = 0.0;
 
