@@ -285,7 +285,9 @@ public class Drivetrain extends SubsystemBase{
     }
 
     public void updateOdometry(){
-        odometry.updateWithTime(Timer.getFPGATimestamp(), getHeadingAsRotation2d(), swerveModulePositions);
+        //odometry.updateWithTime(Timer.getFPGATimestamp(), getHeadingAsRotation2d(), swerveModulePositions);
+        odometry.update(correctHeadingTargetHeading, swerveModulePositions);
+        m_field.setRobotPose(odometry.getEstimatedPosition());
     }
 
     public void setFlipped(){
