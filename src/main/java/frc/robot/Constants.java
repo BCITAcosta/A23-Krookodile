@@ -101,7 +101,7 @@ public final class Constants {
       public static final double kRotationalSlewRate = 2.0;
 
 
-      public static final double kHeadingCorrectionP = 0.4;
+      public static final double kHeadingCorrectionP = 0.04;
       public static final double kHeadingCorrectionTolerance = 2.0;
 }
   
@@ -111,7 +111,7 @@ public final class Constants {
         public static final int kTurnSparkMaxID = 11;
         public static final int kDriveSparkMaxID = 12;
         public static final Rotation2d angleOffset = new Rotation2d(0.15);
-        public static final boolean driveInverted = false;
+        public static final boolean driveInverted = true;
         public static final boolean turnInverted = false;
 
         public static final SwerveModuleConstants constants = new SwerveModuleConstants(kDriveSparkMaxID, kTurnSparkMaxID,
@@ -123,7 +123,7 @@ public final class Constants {
       public static final int kTurnSparkMaxID = 21;
       public static final int kDriveSparkMaxID = 22;
       public static final Rotation2d angleOffset = new Rotation2d(0.06);
-      public static final boolean driveInverted = false;
+      public static final boolean driveInverted = true;
       public static final boolean turnInverted = false;
 
       public static final SwerveModuleConstants constants = new SwerveModuleConstants(kDriveSparkMaxID, kTurnSparkMaxID,
@@ -135,7 +135,7 @@ public final class Constants {
       public static final int kTurnSparkMaxID = 31;
       public static final int kDriveSparkMaxID = 32;
       public static final Rotation2d angleOffset = new Rotation2d(0.29);
-      public static final boolean driveInverted = false;
+      public static final boolean driveInverted = true;
       public static final boolean turnInverted = false;
 
       public static final SwerveModuleConstants constants = new SwerveModuleConstants(kDriveSparkMaxID, kTurnSparkMaxID,
@@ -147,7 +147,7 @@ public final class Constants {
       public static final int kTurnSparkMaxID = 41;
       public static final int kDriveSparkMaxID = 42;
       public static final Rotation2d angleOffset = new Rotation2d(5.45);
-      public static final boolean driveInverted = false;
+      public static final boolean driveInverted = true;
       public static final boolean turnInverted = false;
 
       public static final SwerveModuleConstants constants = new SwerveModuleConstants(kDriveSparkMaxID, kTurnSparkMaxID,

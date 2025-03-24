@@ -84,7 +84,6 @@ public class Mk4TTBSwerve{
         m_driveSparkMaxConfig.idleMode(IdleMode.kBrake);
         m_driveSparkMaxConfig.inverted(m_constants.driveInverted);
         m_driveSparkMaxConfig.smartCurrentLimit(50);
-        m_driveSparkMaxConfig.encoder.inverted(true);
         m_driveSparkMaxConfig.encoder.positionConversionFactor(SwerveDriveConstants.kDrivingEncoderPositionFactor);
         m_driveSparkMaxConfig.encoder.velocityConversionFactor(SwerveDriveConstants.kDrivingEncoderVelocityFactor);
         m_driveSparkMaxConfig.closedLoop
