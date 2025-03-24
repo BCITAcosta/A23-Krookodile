@@ -17,6 +17,8 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.units.MutableMeasure;
 import edu.wpi.first.units.MutableMeasure;
 import edu.wpi.first.units.VoltageUnit;
@@ -57,6 +59,7 @@ public class Drivetrain extends SubsystemBase{
     private Field2d m_field = new Field2d();
     private final SwerveDrivePoseEstimator odometry;
 
+    private final StructArrayPublisher<SwerveModuleState> publisher;
     // Mutable holder for unit-safe voltage values, persisted to avoid reallocation.
 
     public Drivetrain(){
@@ -64,6 +67,7 @@ public class Drivetrain extends SubsystemBase{
         // CameraServer.startAutomaticCapture();
 
         SmartDashboard.putData("Field",m_field);
+        publisher = NetworkTableInstance.getDefault().getStructArrayTopic("/SwerveStates", SwerveModuleState.struct).publish();
 
         frontLeftSwerveModule = new Mk4TTBSwerve(1, Swerve.Mod1.constants);
         frontRightSwerveModule = new Mk4TTBSwerve(0, Swerve.Mod0.constants);
@@ -271,13 +275,11 @@ public class Drivetrain extends SubsystemBase{
 
     public void resetPose(Pose2d pose){
         resetGyro();
-        //Pose2d womp = new Pose2d(new Translation2d(2,7), new Rotation2d(0));
         odometry.resetPosition(getHeadingAsRotation2d(),swerveModulePositions, pose);
     }
 
     public void resetGyro(){
         gyro.reset();   
-        //isFlipped = true;
     }
 
     public Pose2d getPose(){
@@ -306,11 +308,15 @@ public class Drivetrain extends SubsystemBase{
     public void periodic(){
         for (Mk4TTBSwerve module : swerveModules){
             module.putSmartDashboard();
+            module.getPosition();
         }
 
-        for(int i = 0; i < swerveModules.length; i++){
-            swerveModulePositions[i] = swerveModules[i].getPosition();
-        }
+        publisher.set(new SwerveModuleState[]{
+            frontLeftSwerveModule.getState(),
+            frontRightSwerveModule.getState(),
+            backLeftSwerveModule.getState(),
+            backRightSwerveModule.getState()
+        });
 
         SmartDashboard.putNumber("Gyro Heading", getHeading());
         SmartDashboard.putNumber("Gyro Pitch", gyro.getAngle(gyro.getPitchAxis()));
