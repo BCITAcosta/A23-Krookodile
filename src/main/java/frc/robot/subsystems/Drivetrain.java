@@ -19,7 +19,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
-
+import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -54,11 +54,16 @@ public class Drivetrain extends SubsystemBase{
     private final SwerveDrivePoseEstimator odometry;
 
     private final StructArrayPublisher<SwerveModuleState> publisher;
+    private final StructPublisher<Pose2d> posPublisher;
+
     // Mutable holder for unit-safe voltage values, persisted to avoid reallocation.
 
     public Drivetrain(){
 
         SmartDashboard.putData("Field",m_field);
+        posPublisher = NetworkTableInstance.getDefault().getStructTopic("Robot Current Pose", Pose2d.struct).publish();
+
+
         publisher = NetworkTableInstance.getDefault().getStructArrayTopic("/SwerveStates", SwerveModuleState.struct).publish();
 
         frontLeftSwerveModule = new Mk4TTBSwerve(0, Swerve.Mod0.constants);
@@ -218,15 +223,8 @@ public class Drivetrain extends SubsystemBase{
             correctedVr);
     }
 
-    public void straighten(){
-        frontLeftSwerveModule.setDesiredState(new SwerveModuleState(0.0, new Rotation2d(0.0)));
-        backLeftSwerveModule.setDesiredState(new SwerveModuleState(0.0, new Rotation2d(0.0)));
-        backRightSwerveModule.setDesiredState(new SwerveModuleState(0.0, new Rotation2d(0.0)));
-        frontRightSwerveModule.setDesiredState(new SwerveModuleState(0.0, new Rotation2d(0.0)));
-    }
-
     public void drive(Translation2d translation, double rotation, boolean fieldOriented, Translation2d centerOfRoation){
-        double adjustedRotation = 1.57 * rotation;
+        double adjustedRotation = 0.18 * rotation; // Max turn rate in Radians
 
 
         ChassisSpeeds fieldRelativeSpeeds = new ChassisSpeeds(translation.getX(), translation.getY(), adjustedRotation);
@@ -262,7 +260,7 @@ public class Drivetrain extends SubsystemBase{
 
     public double getHeading(){
         heading = gyro.getAngle(gyro.getYawAxis());
-        return 2*Math.PI*Math.IEEEremainder(heading, 360);
+        return Math.IEEEremainder(heading, 360);
     }
 
     public Rotation2d getHeadingAsRotation2d(){
@@ -287,6 +285,7 @@ public class Drivetrain extends SubsystemBase{
         odometry.updateWithTime(Timer.getFPGATimestamp(), getHeadingAsRotation2d(), swerveModulePositions);
         //odometry.update(correctHeadingTargetHeading, swerveModulePositions);
         m_field.setRobotPose(odometry.getEstimatedPosition());
+        posPublisher.set(getPose());
     }
 
     public void setFlipped(){

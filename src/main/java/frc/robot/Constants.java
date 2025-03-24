@@ -101,7 +101,7 @@ public final class Constants {
       public static final double kRotationalSlewRate = 2.0;
 
 
-      public static final double kHeadingCorrectionP = 0.04;
+      public static final double kHeadingCorrectionP = 0.4;
       public static final double kHeadingCorrectionTolerance = 2.0;
 }
   
