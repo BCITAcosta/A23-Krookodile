@@ -262,10 +262,11 @@ public class Drivetrain extends SubsystemBase{
 
     public double getHeading(){
         heading = gyro.getAngle(gyro.getYawAxis());
-        return Math.IEEEremainder(heading, 360);
+        return 2*Math.PI*Math.IEEEremainder(heading, 360);
     }
 
     public Rotation2d getHeadingAsRotation2d(){
+        heading = getHeading();
         return Rotation2d.fromDegrees(heading);
     }
 
