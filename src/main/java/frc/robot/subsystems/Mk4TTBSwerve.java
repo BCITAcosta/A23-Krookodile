@@ -65,9 +65,9 @@ public class Mk4TTBSwerve{
 
     private void configTurningSpark(){
         m_turningSparkMaxConfig.idleMode(IdleMode.kCoast);
-        m_turningSparkMaxConfig.inverted(m_constants.turnInverted);
+        m_turningSparkMaxConfig.inverted(true);
         m_turningSparkMaxConfig.smartCurrentLimit(40);
-        m_turningSparkMaxConfig.analogSensor.inverted(true);
+        m_turningSparkMaxConfig.analogSensor.inverted(m_constants.turnInverted);
         m_turningSparkMaxConfig.analogSensor.positionConversionFactor((2*Math.PI)/3.3);
         m_turningSparkMaxConfig.analogSensor.velocityConversionFactor(((2*Math.PI)/3.3)/60);
         m_turningSparkMaxConfig.closedLoop

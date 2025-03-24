@@ -110,7 +110,7 @@ public final class Constants {
     public static final class Mod0{
         public static final int kTurnSparkMaxID = 11;
         public static final int kDriveSparkMaxID = 12;
-        public static final Rotation2d angleOffset = new Rotation2d(6.20);
+        public static final Rotation2d angleOffset = new Rotation2d(0.15);
         public static final boolean driveInverted = false;
         public static final boolean turnInverted = false;
 
@@ -122,7 +122,7 @@ public final class Constants {
     public static final class Mod1{
       public static final int kTurnSparkMaxID = 21;
       public static final int kDriveSparkMaxID = 22;
-      public static final Rotation2d angleOffset = new Rotation2d(6.25);
+      public static final Rotation2d angleOffset = new Rotation2d(0.06);
       public static final boolean driveInverted = false;
       public static final boolean turnInverted = false;
 
@@ -134,7 +134,7 @@ public final class Constants {
     public static final class Mod2{
       public static final int kTurnSparkMaxID = 31;
       public static final int kDriveSparkMaxID = 32;
-      public static final Rotation2d angleOffset = new Rotation2d(5.93);
+      public static final Rotation2d angleOffset = new Rotation2d(0.29);
       public static final boolean driveInverted = false;
       public static final boolean turnInverted = false;
 
@@ -146,7 +146,7 @@ public final class Constants {
     public static final class Mod3{
       public static final int kTurnSparkMaxID = 41;
       public static final int kDriveSparkMaxID = 42;
-      public static final Rotation2d angleOffset = new Rotation2d(0.92);
+      public static final Rotation2d angleOffset = new Rotation2d(5.45);
       public static final boolean driveInverted = false;
       public static final boolean turnInverted = false;
 

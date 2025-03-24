@@ -73,7 +73,7 @@ public class DriverOI {
     }
 
         public double getStrafe(){
-        double input = -leftJoystick.getRawAxis(0);
+        double input = leftJoystick.getRawAxis(0);
 
         if(Math.abs(input) < 0.9){
             return input *=0.7777; // Why 0.7777?
@@ -83,7 +83,7 @@ public class DriverOI {
     }
 
     public double getRotation() {
-        double rotation = -Math.pow(deadband(rightJoystick.getRawAxis(2),0.3),3);
+        double rotation = Math.pow(deadband(rightJoystick.getRawAxis(2),0.3),3);
 
         double combinedRotation;
         if (SwerveDriveConstants.kUseRateLimit) {
@@ -96,7 +96,7 @@ public class DriverOI {
     }
 
     public Translation2d getCenterOfRotation() {
-        double rotX = -rightJoystick.getRawAxis(0) * SwerveDriveConstants.kWheelBase;
+        double rotX = rightJoystick.getRawAxis(0) * SwerveDriveConstants.kWheelBase;
         double rotY = rightJoystick.getRawAxis(1) * SwerveDriveConstants.kTrackWidth;
 
         if (rotX * rotY > 0) {
