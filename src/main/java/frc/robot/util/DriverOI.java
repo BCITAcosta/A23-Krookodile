@@ -112,6 +112,7 @@ public class DriverOI {
     public Translation2d fromPolar(Rotation2d direction, double magnitude){
         return new Translation2d(direction.getCos() * magnitude, direction.getSin() * magnitude);
     }
+
     /**
      * Finds the (unsigned) minimum difference between two angles including calculating across 0.
      * @param _angleA An angle (in radians).
