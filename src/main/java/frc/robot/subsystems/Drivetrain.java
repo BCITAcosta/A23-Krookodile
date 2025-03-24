@@ -64,13 +64,11 @@ public class Drivetrain extends SubsystemBase{
 
     public Drivetrain(){
 
-        // CameraServer.startAutomaticCapture();
-
         SmartDashboard.putData("Field",m_field);
         publisher = NetworkTableInstance.getDefault().getStructArrayTopic("/SwerveStates", SwerveModuleState.struct).publish();
 
-        frontLeftSwerveModule = new Mk4TTBSwerve(1, Swerve.Mod1.constants);
-        frontRightSwerveModule = new Mk4TTBSwerve(0, Swerve.Mod0.constants);
+        frontLeftSwerveModule = new Mk4TTBSwerve(0, Swerve.Mod0.constants);
+        frontRightSwerveModule = new Mk4TTBSwerve(1, Swerve.Mod1.constants);
         backLeftSwerveModule = new Mk4TTBSwerve(2, Swerve.Mod2.constants);
         backRightSwerveModule = new Mk4TTBSwerve(3 , Swerve.Mod3.constants);
 
@@ -163,8 +161,11 @@ public class Drivetrain extends SubsystemBase{
     public void setSwerveModuleStates(SwerveModuleState[] swerveModuleStates){
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, SwerveDriveConstants.kRealMaxSpeedMPS); //12.5 per SDS for L1
     
-        for(int i=0; i < swerveModules.length; i++){
-            swerveModules[i].setDesiredState(swerveModuleStates[i]);
+        // for(int i=0; i < swerveModules.length; i++){
+        //     swerveModules[i].setDesiredState(swerveModuleStates[i]);
+        // }
+        for(Mk4TTBSwerve module : swerveModules){
+            module.setDesiredState(swerveModuleStates[module.getModuleNumber()]);
         }
 
     }
@@ -254,9 +255,7 @@ public class Drivetrain extends SubsystemBase{
     }
 
     public void autoDrive(ChassisSpeeds speeds){
-        //swerveModuleStates = DriveConstants.kinematics.toSwerveModuleStates(speeds);
-        //setSwerveModuleStates(swerveModuleStates);
-        
+      
         //Pathplanner example code
         ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(speeds, 0.02);
 
