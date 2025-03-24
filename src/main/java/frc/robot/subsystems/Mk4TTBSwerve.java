@@ -14,7 +14,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 
 import frc.robot.util.SwerveModuleConstants;
-
+import frc.robot.Constants;
 import frc.robot.Constants.SwerveDriveConstants;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -40,6 +40,13 @@ public class Mk4TTBSwerve{
     private SwerveModuleState m_desiredState = new SwerveModuleState(0.0, new Rotation2d());
     private double m_angleOffset = 0.0;
 
+
+    /**
+     * Creates an instance of a swerve module, use constants to alter motor controller properties.
+     * Note: Make sure all encoder values are Positive CCW 
+     * @param moduleNum Module ID Number
+     * @param constants Module Constants to use
+     */
     public Mk4TTBSwerve(int moduleNum, SwerveModuleConstants constants){
         this.moduleNum = moduleNum;
 
@@ -63,6 +70,9 @@ public class Mk4TTBSwerve{
         m_driveEncoder.setPosition(0);
     }
 
+    /**
+     * Use to isolate configuration of the Turning Motor SparkMAX
+     */
     private void configTurningSpark(){
         m_turningSparkMaxConfig.idleMode(IdleMode.kCoast);
         m_turningSparkMaxConfig.inverted(true);
@@ -80,6 +90,9 @@ public class Mk4TTBSwerve{
         m_turningSparkMax.configure(m_turningSparkMaxConfig, null, null);
     }
 
+    /**
+     * Use to isolate configuration of the Driving Motor SparkMAX
+     */
     private void configDriveSpark(){
         m_driveSparkMaxConfig.idleMode(IdleMode.kBrake);
         m_driveSparkMaxConfig.inverted(m_constants.driveInverted);
@@ -96,6 +109,7 @@ public class Mk4TTBSwerve{
     }
 
 
+    
     public void setDesiredState(SwerveModuleState desiredState){
         SwerveModuleState correctedDesiredState = new SwerveModuleState();
         correctedDesiredState.speedMetersPerSecond = desiredState.speedMetersPerSecond;
@@ -131,14 +145,14 @@ public class Mk4TTBSwerve{
     }
 
 
-
-
     public void putSmartDashboard(){
-        SmartDashboard.putNumber(this.moduleNum + " Actual Angle", m_turningEncoder.getPosition());
-        SmartDashboard.putNumber(this.moduleNum + " Mod. Offset", m_angleOffset);
-        SmartDashboard.putNumber(this.moduleNum + " M Angle", m_turningEncoder.getPosition()-m_angleOffset);
-        SmartDashboard.putNumber(this.moduleNum + " Set Point", m_desiredState.angle.getDegrees());
-        SmartDashboard.putNumber(this.moduleNum + " Speed Setpoint", m_desiredState.speedMetersPerSecond);
-        SmartDashboard.putNumber(this.moduleNum + "Drive Encoder", m_driveEncoder.getPosition());
+        if(Constants.debugMode){
+            SmartDashboard.putNumber(this.moduleNum + " Actual Angle", m_turningEncoder.getPosition());
+            SmartDashboard.putNumber(this.moduleNum + " Mod. Offset", m_angleOffset);
+            SmartDashboard.putNumber(this.moduleNum + " M Angle", m_turningEncoder.getPosition()-m_angleOffset);
+            SmartDashboard.putNumber(this.moduleNum + " Set Point", m_desiredState.angle.getDegrees());
+            SmartDashboard.putNumber(this.moduleNum + " Speed Setpoint", m_desiredState.speedMetersPerSecond);
+            SmartDashboard.putNumber(this.moduleNum + "Drive Encoder", m_driveEncoder.getPosition());
+        }
     }
 }

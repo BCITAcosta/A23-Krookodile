@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.util.DriverOI;
 
@@ -26,15 +27,17 @@ public class SwerveDriveCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Translation2d position = driverOI.getSwerveTranslation();;
-    Double rotation = driverOI.getRotation();;
+    Translation2d position = driverOI.getSwerveTranslation();
+    Double rotation = driverOI.getRotation();
     Translation2d centerOfRotation = driverOI.getCenterOfRotation();
-    SmartDashboard.putNumber("FR - X Axis", position.getX());
-    SmartDashboard.putNumber("FR - Y Axis", position.getY());
-    SmartDashboard.putNumber("FR - COR X", centerOfRotation.getX());
-    SmartDashboard.putNumber("FR - COR Y", centerOfRotation.getY());
-    SmartDashboard.putNumber("FR - Rotation", rotation);
 
+    if(Constants.debugMode){
+      SmartDashboard.putNumber("FR - X Axis", position.getX());
+      SmartDashboard.putNumber("FR - Y Axis", position.getY());
+      SmartDashboard.putNumber("FR - COR X", centerOfRotation.getX());
+      SmartDashboard.putNumber("FR - COR Y", centerOfRotation.getY());
+      SmartDashboard.putNumber("FR - Rotation", rotation);
+    }
 
 
     drivetrain.drive(position, rotation, true, centerOfRotation);

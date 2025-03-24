@@ -19,6 +19,9 @@ import edu.wpi.first.math.util.Units;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+  public static boolean debugMode = true;
+  public static boolean calibrationMode = false;
+  
   public static class NeoMotorConstants{
     public static final double kFreeSpeedRpm = 5676;
   }
