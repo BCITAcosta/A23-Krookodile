@@ -63,6 +63,39 @@ public class Mk4TTBSwerve{
         m_driveEncoder.setPosition(0);
     }
 
+    private void configTurningSpark(){
+        m_turningSparkMaxConfig.idleMode(IdleMode.kCoast);
+        m_turningSparkMaxConfig.inverted(m_constants.turnInverted);
+        m_turningSparkMaxConfig.smartCurrentLimit(40);
+        m_turningSparkMaxConfig.analogSensor.inverted(true);
+        m_turningSparkMaxConfig.analogSensor.positionConversionFactor((2*Math.PI)/3.3);
+        m_turningSparkMaxConfig.analogSensor.velocityConversionFactor(((2*Math.PI)/3.3)/60);
+        m_turningSparkMaxConfig.closedLoop
+        .feedbackSensor(FeedbackSensor.kAnalogSensor)
+        .pidf(0.45,0.0,0.0,0.0)
+        .outputRange(-1.0, 1.0)
+        .positionWrappingEnabled(true)
+        .positionWrappingInputRange(0, 2*Math.PI);
+        m_turningSparkMaxConfig.closedLoopRampRate(0.05);
+        m_turningSparkMax.configure(m_turningSparkMaxConfig, null, null);
+    }
+
+    private void configDriveSpark(){
+        m_driveSparkMaxConfig.idleMode(IdleMode.kBrake);
+        m_driveSparkMaxConfig.inverted(m_constants.driveInverted);
+        m_driveSparkMaxConfig.smartCurrentLimit(50);
+        m_driveSparkMaxConfig.encoder.positionConversionFactor(SwerveDriveConstants.kDrivingEncoderPositionFactor);
+        m_driveSparkMaxConfig.encoder.velocityConversionFactor(SwerveDriveConstants.kDrivingEncoderVelocityFactor);
+        m_driveSparkMaxConfig.closedLoop
+        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+        .pidf(0.04,0.0,0.0,1.0)
+        .outputRange(-1.0, 1.0);
+        m_driveSparkMaxConfig.closedLoopRampRate(0.05);
+        m_driveSparkMax.configure(m_driveSparkMaxConfig,null,null);
+
+    }
+
+
     public void setDesiredState(SwerveModuleState desiredState){
         SwerveModuleState correctedDesiredState = new SwerveModuleState();
         correctedDesiredState.speedMetersPerSecond = desiredState.speedMetersPerSecond;
@@ -97,37 +130,8 @@ public class Mk4TTBSwerve{
         return this.moduleNum;
     }
 
-    public void configTurningSpark(){
-        m_turningSparkMaxConfig.idleMode(IdleMode.kCoast);
-        m_turningSparkMaxConfig.inverted(false);
-        m_turningSparkMaxConfig.smartCurrentLimit(40);
-        m_turningSparkMaxConfig.analogSensor.inverted(true);
-        m_turningSparkMaxConfig.analogSensor.positionConversionFactor((2*Math.PI)/3.3);
-        m_turningSparkMaxConfig.analogSensor.velocityConversionFactor(((2*Math.PI)/3.3)/60);
-        m_turningSparkMaxConfig.closedLoop
-        .feedbackSensor(FeedbackSensor.kAnalogSensor)
-        .pidf(0.45,0.0,0.0,0.0)
-        .outputRange(-1.0, 1.0)
-        .positionWrappingEnabled(true)
-        .positionWrappingInputRange(0, 2*Math.PI);
-        m_turningSparkMaxConfig.closedLoopRampRate(0.05);
-        m_turningSparkMax.configure(m_turningSparkMaxConfig, null, null);
-    }
 
-    public void configDriveSpark(){
-        m_driveSparkMaxConfig.idleMode(IdleMode.kBrake);
-        m_driveSparkMaxConfig.inverted(m_constants.inverted);
-        m_driveSparkMaxConfig.smartCurrentLimit(50);
-        m_driveSparkMaxConfig.encoder.positionConversionFactor(SwerveDriveConstants.kDrivingEncoderPositionFactor);
-        m_driveSparkMaxConfig.encoder.velocityConversionFactor(SwerveDriveConstants.kDrivingEncoderVelocityFactor);
-        m_driveSparkMaxConfig.closedLoop
-        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-        .pidf(0.04,0.0,0.0,1.0)
-        .outputRange(-1.0, 1.0);
-        m_driveSparkMaxConfig.closedLoopRampRate(0.05);
-        m_driveSparkMax.configure(m_driveSparkMaxConfig,null,null);
 
-    }
 
     public void putSmartDashboard(){
         SmartDashboard.putNumber(this.moduleNum + " Actual Angle", m_turningEncoder.getPosition());

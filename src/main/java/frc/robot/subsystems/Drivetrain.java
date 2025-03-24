@@ -7,7 +7,6 @@ package frc.robot.subsystems;
 // import com.pathplanner.lib.util.PathPlannerLogging;
 // import com.pathplanner.lib.util.ReplanningConfig;
 
-import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -17,21 +16,18 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.units.MutableMeasure;
-import edu.wpi.first.units.MutableMeasure;
-import edu.wpi.first.units.VoltageUnit;
+
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructArrayPublisher;
+
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+
 import frc.robot.Constants.Swerve;
 import frc.robot.Constants.SwerveDriveConstants;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 
 public class Drivetrain extends SubsystemBase{
     private static Drivetrain drivetrain;
@@ -57,16 +53,16 @@ public class Drivetrain extends SubsystemBase{
     private Field2d m_field = new Field2d();
     private final SwerveDrivePoseEstimator odometry;
 
+    private final StructArrayPublisher<SwerveModuleState> publisher;
     // Mutable holder for unit-safe voltage values, persisted to avoid reallocation.
 
     public Drivetrain(){
 
-        // CameraServer.startAutomaticCapture();
-
         SmartDashboard.putData("Field",m_field);
+        publisher = NetworkTableInstance.getDefault().getStructArrayTopic("/SwerveStates", SwerveModuleState.struct).publish();
 
-        frontLeftSwerveModule = new Mk4TTBSwerve(1, Swerve.Mod1.constants);
-        frontRightSwerveModule = new Mk4TTBSwerve(0, Swerve.Mod0.constants);
+        frontLeftSwerveModule = new Mk4TTBSwerve(0, Swerve.Mod0.constants);
+        frontRightSwerveModule = new Mk4TTBSwerve(1, Swerve.Mod1.constants);
         backLeftSwerveModule = new Mk4TTBSwerve(2, Swerve.Mod2.constants);
         backRightSwerveModule = new Mk4TTBSwerve(3 , Swerve.Mod3.constants);
 
@@ -159,8 +155,11 @@ public class Drivetrain extends SubsystemBase{
     public void setSwerveModuleStates(SwerveModuleState[] swerveModuleStates){
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, SwerveDriveConstants.kRealMaxSpeedMPS); //12.5 per SDS for L1
     
-        for(int i=0; i < swerveModules.length; i++){
-            swerveModules[i].setDesiredState(swerveModuleStates[i]);
+        // for(int i=0; i < swerveModules.length; i++){
+        //     swerveModules[i].setDesiredState(swerveModuleStates[i]);
+        // }
+        for(Mk4TTBSwerve module : swerveModules){
+            module.setDesiredState(swerveModuleStates[module.getModuleNumber()]);
         }
 
     }
@@ -250,9 +249,7 @@ public class Drivetrain extends SubsystemBase{
     }
 
     public void autoDrive(ChassisSpeeds speeds){
-        //swerveModuleStates = DriveConstants.kinematics.toSwerveModuleStates(speeds);
-        //setSwerveModuleStates(swerveModuleStates);
-        
+      
         //Pathplanner example code
         ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(speeds, 0.02);
 
@@ -271,13 +268,11 @@ public class Drivetrain extends SubsystemBase{
 
     public void resetPose(Pose2d pose){
         resetGyro();
-        //Pose2d womp = new Pose2d(new Translation2d(2,7), new Rotation2d(0));
         odometry.resetPosition(getHeadingAsRotation2d(),swerveModulePositions, pose);
     }
 
     public void resetGyro(){
         gyro.reset();   
-        //isFlipped = true;
     }
 
     public Pose2d getPose(){
@@ -306,11 +301,15 @@ public class Drivetrain extends SubsystemBase{
     public void periodic(){
         for (Mk4TTBSwerve module : swerveModules){
             module.putSmartDashboard();
+            module.getPosition();
         }
 
-        for(int i = 0; i < swerveModules.length; i++){
-            swerveModulePositions[i] = swerveModules[i].getPosition();
-        }
+        publisher.set(new SwerveModuleState[]{
+            frontLeftSwerveModule.getState(),
+            frontRightSwerveModule.getState(),
+            backLeftSwerveModule.getState(),
+            backRightSwerveModule.getState()
+        });
 
         SmartDashboard.putNumber("Gyro Heading", getHeading());
         SmartDashboard.putNumber("Gyro Pitch", gyro.getAngle(gyro.getPitchAxis()));

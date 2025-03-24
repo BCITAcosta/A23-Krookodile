@@ -26,12 +26,16 @@ public class SwerveDriveCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Translation2d position;
-    position = driverOI.getSwerveTranslation();
-    SmartDashboard.putNumber("field relative input forward axis", position.getX());
-    SmartDashboard.putNumber("field relative input strafe axis", position.getY());
-    double rotation = driverOI.getRotation();
+    Translation2d position = driverOI.getSwerveTranslation();;
+    Double rotation = driverOI.getRotation();;
     Translation2d centerOfRotation = driverOI.getCenterOfRotation();
+    SmartDashboard.putNumber("FR - X Axis", position.getX());
+    SmartDashboard.putNumber("FR - Y Axis", position.getY());
+    SmartDashboard.putNumber("FR - COR X", centerOfRotation.getX());
+    SmartDashboard.putNumber("FR - COR Y", centerOfRotation.getY());
+    SmartDashboard.putNumber("FR - Rotation", rotation);
+
+
 
     drivetrain.drive(position, rotation, true, centerOfRotation);
 
