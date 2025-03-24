@@ -51,6 +51,9 @@ public class DriverOI {
         //Slow mode for driving 
         Trigger slowMode = new JoystickButton(leftJoystick, 1);
         slowMode.toggleOnTrue(new InstantCommand(()-> toggleDriveSpeedMode()));
+
+        JoystickButton resetPose = new JoystickButton(rightJoystick, 6);
+        resetPose.onTrue(new InstantCommand(()-> drivetrain.resetGyro()));
         
     }
 
