@@ -65,7 +65,7 @@ public class Mk4TTBSwerve{
 
     private void configTurningSpark(){
         m_turningSparkMaxConfig.idleMode(IdleMode.kCoast);
-        m_turningSparkMaxConfig.inverted(false);
+        m_turningSparkMaxConfig.inverted(m_constants.turnInverted);
         m_turningSparkMaxConfig.smartCurrentLimit(40);
         m_turningSparkMaxConfig.analogSensor.inverted(true);
         m_turningSparkMaxConfig.analogSensor.positionConversionFactor((2*Math.PI)/3.3);
@@ -82,7 +82,7 @@ public class Mk4TTBSwerve{
 
     private void configDriveSpark(){
         m_driveSparkMaxConfig.idleMode(IdleMode.kBrake);
-        m_driveSparkMaxConfig.inverted(m_constants.inverted);
+        m_driveSparkMaxConfig.inverted(m_constants.driveInverted);
         m_driveSparkMaxConfig.smartCurrentLimit(50);
         m_driveSparkMaxConfig.encoder.positionConversionFactor(SwerveDriveConstants.kDrivingEncoderPositionFactor);
         m_driveSparkMaxConfig.encoder.velocityConversionFactor(SwerveDriveConstants.kDrivingEncoderVelocityFactor);
