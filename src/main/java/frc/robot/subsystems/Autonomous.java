@@ -22,7 +22,7 @@ public class Autonomous extends SubsystemBase{
 
 
     public Autonomous(){
-        defineAutoPaths();
+        defineAutoPaths(); // Really just the auto calls for pathplanner
         autoRoutines = new Hashtable<String, Command>();
         autoRoutineChooser = new SendableChooser<Command>();
         setupAutoRoutines();
