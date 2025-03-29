@@ -94,7 +94,7 @@ public class Mk4TTBSwerve{
      * Use to isolate configuration of the Driving Motor SparkMAX
      */
     private void configDriveSpark(){
-        m_driveSparkMaxConfig.idleMode(IdleMode.kBrake);
+        m_driveSparkMaxConfig.idleMode(IdleMode.kCoast);
         m_driveSparkMaxConfig.inverted(m_constants.driveInverted);
         m_driveSparkMaxConfig.smartCurrentLimit(50);
         m_driveSparkMaxConfig.encoder.positionConversionFactor(SwerveDriveConstants.kDrivingEncoderPositionFactor);
