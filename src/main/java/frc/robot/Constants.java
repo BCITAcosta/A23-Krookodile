@@ -21,7 +21,9 @@ import edu.wpi.first.math.util.Units;
 public final class Constants {
   public static boolean debugMode = true;
   public static boolean calibrationMode = false;
-  
+  public static class AutoConstants{
+    public static final double autoDrivekP = 0.4;
+  }
   public static class NeoMotorConstants{
     public static final double kFreeSpeedRpm = 5676;
   }
@@ -64,6 +66,7 @@ public final class Constants {
 
     public static final double kRealMaxSpeedMPS = 5.24256;
     public static final double kMaxAngularSpeed = 4 * Math.PI /3;
+    public static final double MAXROTATIONRATE = 1.0;
     public static final double kNormalModeTranslationSpeedScale = 0.8;
     public static final double kNormalModeRotationSpeedScale = 0.8;
     public static final double kSlowModeTranslationSpeedScale = 0.5;

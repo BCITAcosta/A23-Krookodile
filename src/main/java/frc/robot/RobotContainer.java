@@ -6,6 +6,7 @@ package frc.robot;
 
 //import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.SwerveDriveCommand;
+import frc.robot.subsystems.Autonomous;
 import frc.robot.subsystems.Drivetrain;
 //import frc.robot.commands.Autos;
 //import frc.robot.commands.ExampleCommand;
@@ -18,13 +19,14 @@ public class RobotContainer {
   // Define robot subsystems here!
   private final Drivetrain drivetrain;
   private final DriverOI driverOI;
+  private final Autonomous m_Autonomous;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
     drivetrain = Drivetrain.getInstance();
     drivetrain.setDefaultCommand(new SwerveDriveCommand());
-
+    m_Autonomous = Autonomous.getInstance();
     driverOI = DriverOI.getInstance();
   }
 
@@ -47,7 +49,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return null;//Autos.exampleAuto(m_exampleSubsystem);
+    return m_Autonomous.returnAutonomousCommand();
   }
 }

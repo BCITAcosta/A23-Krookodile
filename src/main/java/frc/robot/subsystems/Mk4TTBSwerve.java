@@ -101,7 +101,7 @@ public class Mk4TTBSwerve{
         m_driveSparkMaxConfig.encoder.velocityConversionFactor(SwerveDriveConstants.kDrivingEncoderVelocityFactor);
         m_driveSparkMaxConfig.closedLoop
         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-        .pidf(0.04,0.0,0.0,1.0)
+        .pidf(0.15,0.0,1.0,1.0)
         .outputRange(-1.0, 1.0);
         m_driveSparkMaxConfig.closedLoopRampRate(0.05);
         m_driveSparkMax.configure(m_driveSparkMaxConfig,null,null);
