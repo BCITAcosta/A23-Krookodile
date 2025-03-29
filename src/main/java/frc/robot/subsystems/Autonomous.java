@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import java.util.Hashtable;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.pathplanner.lib.path.PathPlannerPath;
 
 import java.util.Enumeration;
 
@@ -11,7 +10,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 
 public class Autonomous extends SubsystemBase{
@@ -20,7 +18,7 @@ public class Autonomous extends SubsystemBase{
     private SendableChooser<Command> autoRoutineChooser;
     private Hashtable<String, Command> autoRoutines;
 
-    private PathPlannerAuto driveOut;
+    private PathPlannerAuto driveOut, reverseDriveOut, centerDriveOut;
 
 
     public Autonomous(){
@@ -40,6 +38,8 @@ public class Autonomous extends SubsystemBase{
 
     public void setupAutoRoutines(){
         autoRoutines.put("Drive Out", driveOut);
+        autoRoutines.put("Reverse Drive Out", reverseDriveOut);
+        autoRoutines.put("Center Drive Out", centerDriveOut);
     }
 
     public void setupAutoSelector(){
@@ -58,7 +58,10 @@ public class Autonomous extends SubsystemBase{
     }
 
     public void defineAutoPaths(){
-        driveOut = new PathPlannerAuto("DriveOutOnly");
+        driveOut = new PathPlannerAuto("DriveOut");
+        reverseDriveOut = new PathPlannerAuto("DriveOutReverse");
+        centerDriveOut = new PathPlannerAuto("CenterDriveOut");
+
     }
 
 }
