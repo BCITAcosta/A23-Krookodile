@@ -26,6 +26,7 @@ public final class Constants {
   }
   public static class NeoMotorConstants{
     public static final double kFreeSpeedRpm = 5676;
+    public static final double kMotorKv = 473;
   }
 
   public static class OperatorConstants {
@@ -159,5 +160,15 @@ public final class Constants {
       public static final SwerveModuleConstants constants = new SwerveModuleConstants(kDriveSparkMaxID, kTurnSparkMaxID,
        angleOffset, driveInverted, turnInverted);
     }
+  }
+
+  public static class ElevatorConstants{
+    public static final int leftMotorID = 51;
+    public static final int rightMotorID = 52;
+
+    public static final double kP = 0.2;
+    public static final double kI = 0.0;
+    public static final double kD = 0.0;
+    public static final double kFF = 1/NeoMotorConstants.kMotorKv;
   }
 }
