@@ -62,7 +62,7 @@ public class Autonomous extends SubsystemBase{
         driveOut = new PathPlannerAuto("DriveOut");
         reverseDriveOut = new PathPlannerAuto("DriveOutReverse");
         centerDriveOut = new PathPlannerAuto("CenterDriveOut");
-        yeetAgain = new PathPlannerAuto("CenterYeet");
+        yeetAgain = new PathPlannerAuto("Yeet2");
 
     }
 

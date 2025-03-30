@@ -22,7 +22,7 @@ public final class Constants {
   public static boolean debugMode = false;
   public static boolean calibrationMode = false;
   public static class AutoConstants{
-    public static final double autoDrivekP = 0.3;
+    public static final double autoDrivekP = 0.4;
   }
   public static class NeoMotorConstants{
     public static final double kFreeSpeedRpm = 5676;
