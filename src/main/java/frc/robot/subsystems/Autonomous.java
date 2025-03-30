@@ -18,7 +18,7 @@ public class Autonomous extends SubsystemBase{
     private SendableChooser<Command> autoRoutineChooser;
     private Hashtable<String, Command> autoRoutines;
 
-    private PathPlannerAuto driveOut, reverseDriveOut, centerDriveOut;
+    private PathPlannerAuto driveOut, reverseDriveOut, centerDriveOut, yeetAgain;
 
 
     public Autonomous(){
@@ -40,6 +40,7 @@ public class Autonomous extends SubsystemBase{
         autoRoutines.put("Drive Out", driveOut);
         autoRoutines.put("Reverse Drive Out", reverseDriveOut);
         autoRoutines.put("Center Drive Out", centerDriveOut);
+        autoRoutines.put("Yeet", yeetAgain);
     }
 
     public void setupAutoSelector(){
@@ -61,6 +62,7 @@ public class Autonomous extends SubsystemBase{
         driveOut = new PathPlannerAuto("DriveOut");
         reverseDriveOut = new PathPlannerAuto("DriveOutReverse");
         centerDriveOut = new PathPlannerAuto("CenterDriveOut");
+        yeetAgain = new PathPlannerAuto("CenterYeet");
 
     }
 

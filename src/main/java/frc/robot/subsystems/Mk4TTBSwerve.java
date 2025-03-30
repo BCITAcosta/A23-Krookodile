@@ -40,7 +40,7 @@ public class Mk4TTBSwerve{
     private SwerveModuleState m_desiredState = new SwerveModuleState(0.0, new Rotation2d());
     private double m_angleOffset = 0.0;
 
-
+    private IdleMode driveIdleMode;
     /**
      * Creates an instance of a swerve module, use constants to alter motor controller properties.
      * Note: Make sure all encoder values are Positive CCW 
@@ -51,6 +51,7 @@ public class Mk4TTBSwerve{
         this.moduleNum = moduleNum;
 
         m_constants = constants;
+        driveIdleMode = IdleMode.kCoast;
 
         m_turningSparkMaxConfig = new SparkMaxConfig();
         m_driveSparkMaxConfig = new SparkMaxConfig();
@@ -94,9 +95,9 @@ public class Mk4TTBSwerve{
      * Use to isolate configuration of the Driving Motor SparkMAX
      */
     private void configDriveSpark(){
-        m_driveSparkMaxConfig.idleMode(IdleMode.kCoast);
+        m_driveSparkMaxConfig.idleMode(driveIdleMode);
         m_driveSparkMaxConfig.inverted(m_constants.driveInverted);
-        m_driveSparkMaxConfig.smartCurrentLimit(50);
+        m_driveSparkMaxConfig.smartCurrentLimit(60);
         m_driveSparkMaxConfig.encoder.positionConversionFactor(SwerveDriveConstants.kDrivingEncoderPositionFactor);
         m_driveSparkMaxConfig.encoder.velocityConversionFactor(SwerveDriveConstants.kDrivingEncoderVelocityFactor);
         m_driveSparkMaxConfig.closedLoop
@@ -106,6 +107,19 @@ public class Mk4TTBSwerve{
         m_driveSparkMaxConfig.closedLoopRampRate(0.05);
         m_driveSparkMax.configure(m_driveSparkMaxConfig,null,null);
 
+    }
+
+    public void toggleDriveIdleMode(){
+        if(driveIdleMode.equals(IdleMode.kCoast)){
+            driveIdleMode = IdleMode.kBrake;
+        }else{
+            driveIdleMode = IdleMode.kCoast;
+        }
+        configDriveSpark();
+    }
+
+    public IdleMode getDriveIdleMode(){
+       return m_driveSparkMax.configAccessor.getIdleMode();
     }
 
 

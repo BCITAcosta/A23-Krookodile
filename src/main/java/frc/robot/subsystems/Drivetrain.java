@@ -5,6 +5,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 // import com.pathplanner.lib.auto.AutoBuilder;
 // import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
@@ -233,6 +234,13 @@ public class Drivetrain extends SubsystemBase{
     }
 
     public void drive(Translation2d translation, double rotation, boolean fieldOriented, Translation2d centerOfRoation){
+        if(DriverStation.isTeleop()){
+            for (Mk4TTBSwerve module : swerveModules){
+                if (module.getDriveIdleMode().equals(IdleMode.kBrake)){
+                    module.toggleDriveIdleMode();
+                }
+            }
+        }
         double adjustedRotation = Constants.SwerveDriveConstants.MAXROTATIONRATE * rotation; // Max turn rate in Radians
 
 
@@ -259,7 +267,14 @@ public class Drivetrain extends SubsystemBase{
     }
 
     public void autoDrive(ChassisSpeeds speeds){
-      
+        if(DriverStation.isAutonomous()){
+            for (Mk4TTBSwerve module : swerveModules){
+                if (module.getDriveIdleMode().equals(IdleMode.kCoast)){
+                    module.toggleDriveIdleMode();
+                }
+            }
+        }
+
         //Pathplanner example code
         ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(speeds, 0.02);
 
@@ -323,10 +338,10 @@ public class Drivetrain extends SubsystemBase{
             backRightSwerveModule.getState()
         });
 
+        SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
         SmartDashboard.putNumber("Gyro Heading", getHeading());
         SmartDashboard.putNumber("Gyro Pitch", gyro.getAngle(gyro.getPitchAxis()));
         SmartDashboard.putNumber("Gyro Roll", gyro.getAngle(gyro.getRollAxis()));
-        
         updateOdometry();
     }
 }
