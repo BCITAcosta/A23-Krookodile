@@ -16,7 +16,7 @@ public class DriverOI {
 
     private final Drivetrain drivetrain;
 
-    private double m_currentRotation = 0.0;
+    // private double m_currentRotation = 0.0;
     private double m_currentTranslationDir = 0.0;
     private double m_currentTranslationMag = 0.0;
 

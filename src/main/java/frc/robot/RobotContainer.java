@@ -17,17 +17,17 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class RobotContainer {
   // Define robot subsystems here!
-  private final Drivetrain drivetrain;
-  private final DriverOI driverOI;
+  private final Drivetrain m_Drivetrain;
+  private final DriverOI m_DriverOI;
   private final Autonomous m_Autonomous;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
-    drivetrain = Drivetrain.getInstance();
-    drivetrain.setDefaultCommand(new SwerveDriveCommand());
+    m_Drivetrain = Drivetrain.getInstance();
+    m_Drivetrain.setDefaultCommand(new SwerveDriveCommand());
     m_Autonomous = Autonomous.getInstance();
-    driverOI = DriverOI.getInstance();
+    m_DriverOI = DriverOI.getInstance();
   }
 
   /**
@@ -39,9 +39,7 @@ public class RobotContainer {
    * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
-  private void configureBindings() {
-
-  }
+  private void configureBindings() {}
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
